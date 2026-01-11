@@ -45,12 +45,12 @@ export default function LandingPage() {
 
   const services = [
     { name: 'Report Waterlogging', icon: AlertTriangle, href: '/report' },
-    { name: 'Request De-silting', icon: Droplets, href: '#' },
-    { name: 'Volunteer Registration', icon: Users, href: '#' },
+    { name: 'Request De-silting', icon: Droplets, href: '/sliting' },
+    { name: 'Volunteer Registration', icon: Users, href: '/vol-reg' },
   ];
 
   const resources = [
-    { name: 'Safety Guides', icon: ShieldCheck, desc: 'Electrical & Vehicle Safety' },
+    { name: 'Safety Guides', icon: ShieldCheck, desc: 'Electrical & Vehicle Safety',href:'/saf-guid' },
     { name: 'Emergency Contacts', icon: Phone, desc: 'MCD, PWD, Flood Control' },
     { name: 'Zone Maps', icon: MapIcon, desc: '12 MCD Administrative Zones' },
   ];
