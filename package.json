@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.5.0",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.4",
     "@types/mapbox-gl": "^3.4.1",
@@ -27,8 +29,13 @@
     "react-hook-form": "^7.70.0",
     "react-leaflet": "^5.0.0",
     "react-map-gl": "^8.1.0",
+<<<<<<< HEAD
     "sonner": "^2.0.7",
+=======
+    "recharts": "^3.6.0",
+>>>>>>> 07f5214 (feat: Complete UI redesign with white theme - Report page redesign with 30-sec hero, bento grid, multi-step form - Landing page converted to white theme - Global shared Navbar and Footer in layout - Volunteer registration page with white theme and expanded content - De-silting service page with preventative cleanliness theme - Updated About and Hydrology pages for shared layout - New components: ReportForm, DesiltingForm - Consistent emerald/teal accent colors throughout)
     "tailwind-merge": "^3.4.0",
+    "three": "^0.182.0",
     "zod": "^4.3.5"
   },
   "devDependencies": {
@@ -36,6 +43,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.182.0",
     "cross-env": "^10.1.0",
     "oxlint": "^1.12.0",
     "postcss": "^8",

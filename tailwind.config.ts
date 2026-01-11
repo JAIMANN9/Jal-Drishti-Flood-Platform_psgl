@@ -8,7 +8,20 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {}, // no themed colors mapped
+    extend: {
+      colors: {
+        background: "var(--background)",
+        "background-secondary": "var(--background-secondary)",
+        foreground: "var(--foreground)",
+        "foreground-muted": "var(--foreground-muted)",
+        primary: "var(--primary)",
+        accent: "var(--accent)",
+        card: "var(--card)",
+        "card-foreground": "var(--card-foreground)",
+        border: "var(--border)",
+        "border-accent": "var(--border-accent)",
+      },
+    },
   },
   plugins: [],
 };
