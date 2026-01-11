@@ -45,12 +45,12 @@ export default function LandingPage() {
 
   const services = [
     { name: 'Report Waterlogging', icon: AlertTriangle, href: '/report' },
-    { name: 'Request De-silting', icon: Droplets, href: '/sliting' },
-    { name: 'Volunteer Registration', icon: Users, href: '/vol-reg' },
+    { name: 'Request De-silting', icon: Droplets, href: '#' },
+    { name: 'Volunteer Registration', icon: Users, href: '#' },
   ];
 
   const resources = [
-    { name: 'Safety Guides', icon: ShieldCheck, desc: 'Electrical & Vehicle Safety',href:'/saf-guid' },
+    { name: 'Safety Guides', icon: ShieldCheck, desc: 'Electrical & Vehicle Safety' },
     { name: 'Emergency Contacts', icon: Phone, desc: 'MCD, PWD, Flood Control' },
     { name: 'Zone Maps', icon: MapIcon, desc: '12 MCD Administrative Zones' },
   ];
@@ -98,13 +98,23 @@ export default function LandingPage() {
               </button>
               <div className="absolute top-full right-0 mt-2 w-72 bg-white rounded-xl shadow-2xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 p-2">
                 {resources.map(item => (
-                  <button key={item.name} className="w-full flex items-center gap-3 p-3 hover:bg-slate-50 rounded-lg transition-colors text-left">
-                    <item.icon className="w-5 h-5 text-cyan-600" />
-                    <div>
-                      <div className="text-sm font-bold text-slate-700">{item.name}</div>
-                      <div className="text-xs text-slate-400">{item.desc}</div>
-                    </div>
-                  </button>
+                  item.name === 'Safety Guides' ? (
+                    <Link key={item.name} href="/saf-guid" className="w-full flex items-center gap-3 p-3 hover:bg-slate-50 rounded-lg transition-colors text-left">
+                      <item.icon className="w-5 h-5 text-cyan-600" />
+                      <div>
+                        <div className="text-sm font-bold text-slate-700">{item.name}</div>
+                        <div className="text-xs text-slate-400">{item.desc}</div>
+                      </div>
+                    </Link>
+                  ) : (
+                    <button key={item.name} className="w-full flex items-center gap-3 p-3 hover:bg-slate-50 rounded-lg transition-colors text-left">
+                      <item.icon className="w-5 h-5 text-cyan-600" />
+                      <Link  key={item.name} href="/emg-contact">
+                        <div className="text-sm font-bold text-slate-700">{item.name}</div>
+                        <div className="text-xs text-slate-400">{item.desc}</div>
+                      </Link>
+                    </button>
+                  )
                 ))}
               </div>
             </div>
