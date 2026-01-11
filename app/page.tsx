@@ -51,8 +51,8 @@ export default function LandingPage() {
 
   const resources = [
     { name: 'Safety Guides', icon: ShieldCheck, desc: 'Electrical & Vehicle Safety' },
-    { name: 'Emergency Contacts', icon: Phone, desc: 'MCD, PWD, Flood Control' },
-    { name: 'Zone Maps', icon: MapIcon, desc: '12 MCD Administrative Zones' },
+    { name: 'Emergency Contacts', icon: Phone, desc: 'MCD, PWD, Flood Control', href: '/emg-contact' },
+    { name: 'Zone Maps', icon: MapIcon, desc: '12 MCD Administrative Zones', href: '/zoneMap' },
   ];
 
   return (
@@ -109,7 +109,7 @@ export default function LandingPage() {
                   ) : (
                     <button key={item.name} className="w-full flex items-center gap-3 p-3 hover:bg-slate-50 rounded-lg transition-colors text-left">
                       <item.icon className="w-5 h-5 text-cyan-600" />
-                      <Link  key={item.name} href="/emg-contact">
+                      <Link key={item.name} href={`${item.href}`}>
                         <div className="text-sm font-bold text-slate-700">{item.name}</div>
                         <div className="text-xs text-slate-400">{item.desc}</div>
                       </Link>
