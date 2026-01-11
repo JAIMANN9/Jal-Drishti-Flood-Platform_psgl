@@ -43,6 +43,7 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
 
     const handleSkip = () => {
         setIsSkipping(true);
+        // Immediate dismissal
         onComplete();
     };
 
@@ -71,7 +72,7 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
 
     return (
         <motion.div
-            className="fixed inset-0 bg-slate-950 z-50 overflow-hidden"
+            className="fixed inset-0 bg-slate-950 z-[100] overflow-hidden"
             initial={{ opacity: 1 }}
             animate={phase === 4 ? { opacity: 0 } : { opacity: 1 }}
             transition={{ duration: 1.5, delay: phase === 4 ? 2 : 0 }}
@@ -120,14 +121,16 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
 
             {/* Skip button */}
             <motion.button
-                className="absolute top-6 right-6 z-50 px-4 py-2 text-sm font-medium text-slate-400 
+                className="absolute top-6 right-6 z-[110] px-4 py-2 text-sm font-medium text-slate-400 
                    hover:text-white border border-slate-700 hover:border-cyan-500/50 
                    rounded-full transition-all duration-300 backdrop-blur-sm
-                   hover:shadow-[0_0_20px_rgba(6,182,212,0.3)]"
+                   hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] cursor-pointer"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 2 }}
                 onClick={handleSkip}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
             >
                 Skip Intro →
             </motion.button>
