@@ -19,7 +19,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { toast, Toaster } from "sonner";
 
+// 1. Define the Validation Schema
 const reportSchema = z.object({
   location: z.string().min(5, "Please provide a more specific location"),
   depth: z.string().min(1, "Please select water depth"),
@@ -27,9 +30,13 @@ const reportSchema = z.object({
   contact: z.string().regex(/^[0-9]{10}$/, "Enter a valid 10-digit number"),
 });
 
+// 2. Derive the Type from the Schema
 type ReportFormValues = z.infer<typeof reportSchema>;
 
 export default function ReportPage() {
+  const router = useRouter();
+  
+  // 3. Define all necessary states
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedDepth, setSelectedDepth] = useState<string | null>(null);
@@ -45,41 +52,61 @@ export default function ReportPage() {
 
   const onSubmit = async (data: ReportFormValues) => {
     setIsSubmitting(true);
-    await new Promise((r) => setTimeout(r, 2000));
+
+    // Create the new entry object
+    const newEntry = {
+      id: `JAL/E/2026/${Math.floor(100000 + Math.random() * 900000)}`,
+      receivedDate: new Date().toLocaleDateString("en-GB"),
+      location: data.location,
+      description: data.description,
+      status: "Pending",
+      depth: data.depth,
+    };
+
+    // Save to LocalStorage
+    const existingReports = JSON.parse(localStorage.getItem("userReports") || "[]");
+    const updatedReports = [newEntry, ...existingReports];
+    localStorage.setItem("userReports", JSON.stringify(updatedReports));
+
+    // Simulate network delay
+    await new Promise((r) => setTimeout(r, 1500));
+
     setIsSubmitting(false);
     setIsSubmitted(true);
+
+    // Show Toast Notification
+    toast.success("Incident Transmitted Successfully!", {
+      description: `Report ${newEntry.id} has been logged in the system.`,
+    });
+
+    // Optional: Redirect after success
+    // setTimeout(() => router.push("/dashboard"), 3000);
   };
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-slate-950 font-sans selection:bg-rose-500/30">
-      {/* --- DYNAMIC BACKGROUND ELEMENTS --- */}
+      <Toaster richColors position="top-right" />
+      
+      {/* DYNAMIC BACKGROUND ELEMENTS */}
       <div className="absolute inset-0 z-0">
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-            x: [0, 50, 0] 
-          }}
+        <motion.div
+          animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0], x: [0, 50, 0] }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] bg-rose-600/20 blur-[120px] rounded-full" 
+          className="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] bg-rose-600/20 blur-[120px] rounded-full"
         />
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.3, 1],
-            y: [0, 100, 0] 
-          }}
+        <motion.div
+          animate={{ scale: [1, 1.3, 1], y: [0, 100, 0] }}
           transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          className="absolute top-[20%] -right-[10%] w-[40%] h-[40%] bg-cyan-600/20 blur-[120px] rounded-full" 
+          className="absolute top-[20%] -right-[10%] w-[40%] h-[40%] bg-cyan-600/20 blur-[120px] rounded-full"
         />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
       </div>
 
       <div className="relative z-10 max-w-2xl mx-auto py-12 px-6">
         <Link
-          href="/"
+          href="/dashboard"
           className="group inline-flex items-center gap-2 text-slate-400 hover:text-white mb-8 transition-colors font-medium text-sm"
         >
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> 
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           Back to Safety Dashboard
         </Link>
 
@@ -92,11 +119,9 @@ export default function ReportPage() {
               exit={{ opacity: 0, scale: 0.95 }}
               className="relative group"
             >
-              {/* Decorative border glow */}
               <div className="absolute -inset-0.5 bg-gradient-to-r from-rose-500 to-cyan-500 rounded-[2.5rem] blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-              
+
               <div className="relative bg-slate-900/80 backdrop-blur-2xl rounded-[2.5rem] border border-white/10 shadow-2xl overflow-hidden">
-                {/* HEADER */}
                 <div className="relative p-8 overflow-hidden">
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-rose-500 via-pink-500 to-cyan-500" />
                   <div className="flex items-center gap-4 mb-2">
@@ -122,7 +147,7 @@ export default function ReportPage() {
                         {...register("location")}
                         placeholder="e.g., Minto Bridge, Connaught Place"
                         className={cn(
-                          "w-full px-5 py-4 bg-slate-800/50 border border-slate-700 rounded-2xl text-white placeholder:text-slate-500 transition-all focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500/50",
+                          "w-full px-5 py-4 bg-slate-800/50 border border-slate-700 rounded-2xl text-white placeholder:text-slate-500 transition-all focus:outline-none focus:ring-2 focus:ring-rose-500/50",
                           errors.location && "border-rose-500/50 bg-rose-500/5"
                         )}
                       />
@@ -167,6 +192,7 @@ export default function ReportPage() {
                         </button>
                       ))}
                     </div>
+                    {errors.depth && <span className="text-xs text-rose-400 font-medium">{errors.depth.message}</span>}
                   </div>
 
                   {/* DETAILS */}
@@ -184,6 +210,7 @@ export default function ReportPage() {
                         errors.description && "border-rose-500/50"
                       )}
                     />
+                    {errors.description && <span className="text-xs text-rose-400 font-medium">{errors.description.message}</span>}
                   </div>
 
                   {/* CONTACT */}
@@ -200,6 +227,7 @@ export default function ReportPage() {
                         errors.contact && "border-rose-500/50"
                       )}
                     />
+                    {errors.contact && <span className="text-xs text-rose-400 font-medium">{errors.contact.message}</span>}
                   </div>
 
                   {/* SUBMIT */}
@@ -246,15 +274,23 @@ export default function ReportPage() {
 
               <div className="bg-slate-950/50 p-6 rounded-3xl border border-slate-800 mb-8 text-left">
                 <div className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-1">Incident ID</div>
-                <div className="text-lg font-mono font-bold text-emerald-400">#FLD-2026-X89</div>
+                <div className="text-lg font-mono font-bold text-emerald-400">#FLD-2026-LIVE</div>
               </div>
 
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 text-white bg-slate-800 hover:bg-slate-700 px-8 py-4 rounded-2xl font-bold transition-all"
-              >
-                <ArrowLeft className="w-4 h-4" /> Return Home
-              </Link>
+              <div className="flex flex-col gap-3">
+                <Link
+                  href="/dashboard"
+                  className="inline-flex items-center justify-center gap-2 text-white bg-cyan-600 hover:bg-cyan-700 px-8 py-4 rounded-2xl font-bold transition-all"
+                >
+                  View My Dashboard
+                </Link>
+                <button
+                  onClick={() => setIsSubmitted(false)}
+                  className="text-slate-400 hover:text-white text-sm font-medium"
+                >
+                  Submit Another Report
+                </button>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
