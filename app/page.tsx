@@ -45,8 +45,8 @@ export default function LandingPage() {
 
   const services = [
     { name: 'Report Waterlogging', icon: AlertTriangle, href: '/report' },
-    { name: 'Request De-silting', icon: Droplets, href: '#' },
-    { name: 'Volunteer Registration', icon: Users, href: '#' },
+    { name: 'Request De-silting', icon: Droplets, href: '/sliting' },
+    { name: 'Volunteer Registration', icon: Users, href: '/vol-reg' },
   ];
 
   const resources = [
