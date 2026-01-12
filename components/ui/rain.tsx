@@ -1,7 +1,6 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
-
 import { cn } from "@/lib/utils"
 
 interface RainDrop {
@@ -21,20 +20,16 @@ interface Lightning {
 }
 
 interface RainBackgroundProps {
-    intensity?: number // Number of raindrops (default: 100)
-    speed?: number // Base speed multiplier (default: 1)
-    color?: string // Rain color (default: "rgba(174, 194, 224, 0.6)")
-    angle?: number // Wind angle in degrees (default: 0)
-    dropSize?: {
-        min: number
-        max: number
-    } // Drop size range (default: {min: 1, max: 3})
-    // Thunder & Lightning props
-    lightningEnabled?: boolean // Enable lightning effects (default: false)
-    lightningFrequency?: number // Lightning frequency in seconds (default: 8)
-    thunderEnabled?: boolean // Enable thunder sounds (default: false)
-    thunderVolume?: number // Thunder volume 0-1 (default: 0.5)
-    thunderDelay?: number // Delay between lightning and thunder in seconds (default: 2)
+    intensity?: number
+    speed?: number
+    color?: string
+    angle?: number
+    dropSize?: { min: number; max: number }
+    lightningEnabled?: boolean
+    lightningFrequency?: number
+    thunderEnabled?: boolean
+    thunderVolume?: number
+    thunderDelay?: number
     className?: string
     children?: React.ReactNode
 }
@@ -72,7 +67,6 @@ export function RainBackground({
     // Generate raindrops
     useEffect(() => {
         const drops: RainDrop[] = []
-
         for (let i = 0; i < intensity; i++) {
             drops.push({
                 id: i,
@@ -83,7 +77,6 @@ export function RainBackground({
                 delay: Math.random() * 2,
             })
         }
-
         setRaindrops(drops)
     }, [intensity, speed, dropSize])
 
@@ -92,16 +85,14 @@ export function RainBackground({
         if (!lightningEnabled) return
 
         const lightningTypes: ("flash" | "bolt")[] = ["flash", "flash", "bolt"]
-        const type =
-            lightningTypes[Math.floor(Math.random() * lightningTypes.length)]
-        const intensityVal = Math.random() * 0.8 + 0.2
-        const duration =
-            type === "flash" ? 150 + Math.random() * 100 : 300 + Math.random() * 200
+        const type = lightningTypes[Math.floor(Math.random() * lightningTypes.length)]
+        const intensity = Math.random() * 0.8 + 0.2
+        const duration = type === "flash" ? 150 + Math.random() * 100 : 300 + Math.random() * 200
 
         const newLightning: Lightning = {
             id: Date.now(),
             type,
-            intensity: intensityVal,
+            intensity,
             duration,
         }
 
@@ -117,15 +108,12 @@ export function RainBackground({
             setTimeout(() => {
                 if (thunderAudioRef.current) {
                     thunderAudioRef.current.currentTime = 0
-                    thunderAudioRef.current.play().catch(() => {
-                        console.log("Thunder audio blocked by browser autoplay policy")
-                    })
+                    thunderAudioRef.current.play().catch(() => { })
                 }
             }, thunderDelay * 1000)
         }
 
-        const nextLightning =
-            (lightningFrequency + Math.random() * lightningFrequency) * 1000
+        const nextLightning = (lightningFrequency + Math.random() * lightningFrequency) * 1000
         lightningTimeoutRef.current = setTimeout(triggerLightning, nextLightning)
     }, [lightningEnabled, lightningFrequency, thunderEnabled, thunderDelay])
 
@@ -134,35 +122,30 @@ export function RainBackground({
             const initialDelay = Math.random() * lightningFrequency * 1000
             lightningTimeoutRef.current = setTimeout(triggerLightning, initialDelay)
         }
-
         return () => {
             if (lightningTimeoutRef.current) {
                 clearTimeout(lightningTimeoutRef.current)
             }
         }
-    }, [lightningEnabled, triggerLightning, lightningFrequency])
+    }, [lightningEnabled, triggerLightning])
 
     const generateBoltPath = () => {
         const startX = Math.random() * 100
         const segments = 8 + Math.random() * 4
         let path = `M ${startX} 0`
         let currentX = startX
-        let currentY = 0
-
         for (let i = 1; i <= segments; i++) {
             const segmentHeight = 100 / segments
-            currentY = i * segmentHeight
+            const currentY = i * segmentHeight
             currentX += (Math.random() - 0.5) * 20
             currentX = Math.max(0, Math.min(100, currentX))
             path += ` L ${currentX} ${currentY}`
         }
-
         return path
     }
 
     return (
         <div className={cn("relative overflow-hidden", className)}>
-            {/* Lightning Effects */}
             {lightning && (
                 <>
                     {lightning.type === "flash" && (
@@ -174,7 +157,6 @@ export function RainBackground({
                             }}
                         />
                     )}
-
                     {lightning.type === "bolt" && (
                         <div className="pointer-events-none absolute inset-0 z-20">
                             <svg
@@ -197,19 +179,12 @@ export function RainBackground({
                                     fill="none"
                                     filter="url(#glow)"
                                 />
-                                <path
-                                    d={generateBoltPath()}
-                                    stroke={`rgba(135, 206, 235, ${lightning.intensity * 0.8})`}
-                                    strokeWidth="1"
-                                    fill="none"
-                                />
                             </svg>
                         </div>
                     )}
                 </>
             )}
 
-            {/* Rain container */}
             <div
                 className="pointer-events-none absolute inset-0"
                 style={{
@@ -236,81 +211,23 @@ export function RainBackground({
                 ))}
             </div>
 
-            {/* Content */}
             <div className="relative z-10">{children}</div>
 
             <style jsx>{`
         @keyframes rain-fall {
-          0% {
-            transform: translateY(-20px);
-          }
-          100% {
-            transform: translateY(calc(100vh + 20px));
-          }
+          0% { transform: translateY(-20px); }
+          100% { transform: translateY(calc(100vh + 20px)); }
         }
-
         @keyframes lightning-flash {
-          0% {
-            opacity: 0;
-          }
-          10% {
-            opacity: 1;
-          }
-          20% {
-            opacity: 0.3;
-          }
-          30% {
-            opacity: 1;
-          }
-          40% {
-            opacity: 0;
-          }
-          100% {
-            opacity: 0;
-          }
+          0% { opacity: 0; } 10% { opacity: 1; } 20% { opacity: 0.3; } 30% { opacity: 1; } 40% { opacity: 0; } 100% { opacity: 0; }
         }
-
         @keyframes lightning-bolt {
-          0% {
-            opacity: 0;
-          }
-          10% {
-            opacity: 1;
-          }
-          20% {
-            opacity: 0.7;
-          }
-          30% {
-            opacity: 1;
-          }
-          40% {
-            opacity: 0.4;
-          }
-          50% {
-            opacity: 0.8;
-          }
-          60% {
-            opacity: 0;
-          }
-          100% {
-            opacity: 0;
-          }
+          0% { opacity: 0; } 10% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 0; }
         }
-
-        .animate-rain-fall {
-          animation: rain-fall linear infinite;
-        }
-
-        .animate-lightning-flash {
-          animation: lightning-flash ease-out forwards;
-        }
-
-        .animate-lightning-bolt {
-          animation: lightning-bolt ease-out forwards;
-        }
+        .animate-rain-fall { animation: rain-fall linear infinite; }
+        .animate-lightning-flash { animation: lightning-flash ease-out forwards; }
+        .animate-lightning-bolt { animation: lightning-bolt ease-out forwards; }
       `}</style>
         </div>
     )
 }
-
-export default RainBackground

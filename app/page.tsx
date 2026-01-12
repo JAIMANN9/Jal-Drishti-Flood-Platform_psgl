@@ -30,6 +30,7 @@ import CinematicIntro from './components/CinematicIntro';
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import { FeatureCard } from "@/components/ui/grid-feature-cards";
 import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
+import HeroSection from '@/components/ui/hero-section';
 
 // Mock Data
 const bentoFeatures = [
@@ -165,74 +166,7 @@ export default function LandingPage() {
       <div className="min-h-screen bg-white font-sans text-slate-900 overflow-x-hidden">
 
         {/* ============ HERO SECTION ============ */}
-        <section className="relative pt-20 pb-20 md:pt-32 md:pb-32 overflow-hidden">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-cyan-100/40 blur-[120px] rounded-full -z-10" />
-          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-emerald-50/50 blur-[100px] rounded-full -z-10" />
-
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 text-xs font-bold tracking-widest uppercase bg-white border border-slate-200 text-cyan-700 rounded-full shadow-sm">
-                  <span className="flex h-2 w-2 relative">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-                  </span>
-                  Live Monsoon Monitoring 2026
-                </div>
-
-                <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-8 tracking-tight leading-[1.1]">
-                  Delhi's Digital Shield <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-emerald-600">
-                    Against Flooding.
-                  </span>
-                </h1>
-
-                <p className="text-xl text-slate-600 mb-10 leading-relaxed max-w-xl">
-                  Jal-Drishti is the National Capital's unified command platform for hydrological resilience, integrating IoT sensors, 3D digital twins, and citizen intelligence.
-                </p>
-
-                <div className="flex flex-col sm:flex-row items-center gap-4">
-                  <Link
-                    href="/login"
-                    className="w-full sm:w-auto bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold hover:bg-slate-800 transition-all flex items-center justify-center gap-2 group shadow-xl shadow-slate-200 hover:shadow-2xl hover:scale-105"
-                  >
-                    Access Command Center
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                  <Link
-                    href="/report"
-                    className="w-full sm:w-auto bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-2xl font-bold hover:bg-slate-50 hover:border-cyan-200 transition-all flex items-center justify-center gap-2"
-                  >
-                    <AlertTriangle className="w-5 h-5 text-rose-500" />
-                    Report Waterlogging
-                  </Link>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="relative hidden lg:block"
-              >
-                {/* Hero Card/Visual would go here if needed, keeping it simpler for now to focus on new components */}
-                <div className="relative w-full aspect-square rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white">
-                  <img src="/hero-monsoon.png" alt="Hero" className="object-cover w-full h-full" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
-                  <div className="absolute bottom-10 left-10 text-white">
-                    <div className="text-sm font-bold text-cyan-400 mb-2">LIVE FEED</div>
-                    <div className="text-3xl font-black">Yamuna Barrage</div>
-                    <div className="text-xl text-slate-300">Water Level: Safe</div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
+        <HeroSection />
 
         {/* ============ BENTO GRID SECTION (New Component) ============ */}
         <section className="py-32 bg-slate-50 border-y border-slate-200">
